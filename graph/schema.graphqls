@@ -17,7 +17,7 @@ input NewCategory {
   description: String
 }
 
-input NewCourse {`
+input NewCourse {
   name: String!
   description: String
   categoryId: ID!
@@ -26,4 +26,9 @@ input NewCourse {`
 type Query {
   categories: [Category!]!
   courses: [Course!]!
+}
+
+type Mutation {
+  createCategory(input: NewCategory!): Category!
+  createCourse(input: NewCourse!): Course!
 }
