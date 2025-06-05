@@ -41,3 +41,21 @@ func (c *CourseDB) FindAll() ([]*model.Course, error) {
 	}
 	return courses, nil
 }
+
+func (c *CourseDB) FindByCategoryID(categoryID string) ([]*model.Course, error) {
+	rows, err := c.db.Query("SELECT id, name, description FROM courses WHERE category_id = $1", categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	courses := []*model.Course{}
+	for rows.Next() {
+		var course model.Course
+		if err := rows.Scan(&course.ID, &course.Name, &course.Description); err != nil {
+			return nil, err
+		}
+		courses = append(courses, &course)
+	}
+	return courses, nil
+}
